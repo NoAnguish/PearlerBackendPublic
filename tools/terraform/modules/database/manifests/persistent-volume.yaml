@@ -1,0 +1,15 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: ${pv_name}
+  labels:
+    type: local
+    app.kubernetes.io/name: ${match_label}
+spec:
+  storageClassName: manual
+  capacity:
+    storage: ${pv_size}
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: ${pv_path}

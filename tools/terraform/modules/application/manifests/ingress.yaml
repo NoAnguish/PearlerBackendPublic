@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: pearler-ingress
+  namespace: ${namespace}
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    cert-manager.io/cluster-issuer: "letsencrypt"
+spec:
+  tls:
+    - hosts:
+      - ${api_host}
+      secretName: letsencrypt
+  ingressClassName: nginx
+  rules:
+    - host: ${api_host}
+      http:
+        paths:
+        - path: /PearlerApi/v1(/|$)(.*)
+          pathType: Prefix
+          backend:
+            service:
+              name: pearler-api
+              port:
+                number: 80

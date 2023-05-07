@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: ${namespace}
+  name: pearler-postgres-init
+data:
+  init.sql: |
+    CREATE TABLE "MigrDbVersion" (version VARCHAR(25));
+    INSERT INTO "MigrDbVersion" VALUES ('v_00000');

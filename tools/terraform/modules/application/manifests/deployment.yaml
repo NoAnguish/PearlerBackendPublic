@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: ${namespace}
+  name: pearler-api
+  labels: 
+    app.kubernetes.io/name: pearler-api
+spec:
+  replicas: 1
+  selector: { "matchLabels": { "app.kubernetes.io/name": "pearler-api" } }
+  template:
+    metadata:
+      labels: { "app.kubernetes.io/name": "pearler-api" }
+    spec:
+      containers:
+        - name: pearler-api
+          image: ${docker_image_url}
+          imagePullPolicy: Always
+          command: [ "/bin/sh", "-c", "./pearler" ]
+          volumeMounts:
+            - name: pearler-application-config
+              mountPath: /cfg/configs/
+              readOnly: true
+          ports:
+            - containerPort: 3422
+          env:
+            - name: config_path
+              value: /cfg/configs/config.yaml
+      volumes:
+        - name: pearler-application-config
+          configMap:
+            name: pearler-application-configmap

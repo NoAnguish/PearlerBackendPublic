@@ -1,0 +1,14 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pearler-postgres-pv-claim
+  namespace: ${namespace}
+  labels:
+    app.kubernetes.io/name: ${match_label}
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: ${pv_size}

@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: ${namespace}
+  name: pearler-application-configmap
+data:
+  config.yaml: |
+    database:
+      host: pearler-database
+      port: 5432
+      username: PearlerDBUser
+      password: "1234567821"
+      database: PearlerDB
+    server:
+      port: 3422
+    s3:
+      endpoint: "https://storage.yandexcloud.net"
+      bucket: "${image_bucket_name}"
+      region: ru-central1
+      credentials:
+        access_key_id: "${access_key_id}"
+        secret_access_key: "${secret_access_key}"
